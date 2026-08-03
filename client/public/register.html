@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Create account · WorkshopHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/variables.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <div class="auth-visual">
+    <div class="brand">
+      <div class="brand-mark">W</div>
+      <span>WorkshopHub</span>
+    </div>
+    <div class="pitch">
+      <h2>Book services and track repairs in real time.</h2>
+      <p>Register your vehicles, request bookings, and watch your repair move through the queue live.</p>
+      <div class="pipeline-preview">
+        <span>Book</span><span>Confirm</span><span>Track</span><span>Pick up</span>
+      </div>
+    </div>
+    <div class="foot">© 2026 WorkshopHub. Built for professional automotive &amp; motorcycle workshops.</div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-form-card">
+      <div class="auth-mobile-brand">
+        <div class="brand-mark" style="background:var(--color-primary); width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#073047;font-weight:800;">W</div>
+        <span>WorkshopHub</span>
+      </div>
+      <h1>Create your account</h1>
+      <p class="sub">Register as a customer to book services and track repairs.</p>
+
+      <div id="authAlert" class="auth-alert hidden"></div>
+
+      <form id="registerForm">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input class="input" id="fullName" required placeholder="Jane Cooper" />
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="username">Username</label>
+            <input class="input" id="username" required placeholder="janecooper" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input class="input" id="phone" placeholder="+62 812 3456 789" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" id="email" type="email" required placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input class="input" id="password" type="password" required minlength="6" placeholder="At least 6 characters" />
+        </div>
+        <div class="field">
+          <label for="address">Address <span class="text-faint">(optional)</span></label>
+          <input class="input" id="address" placeholder="Street, number" />
+        </div>
+        <button class="btn btn-accent" type="submit" id="registerBtn">Create account</button>
+      </form>
+
+      <div class="auth-switch">Already have an account? <a href="/login.html">Log in</a></div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/shared/api.js"></script>
+<script src="/js/shared/auth.js"></script>
+<script>
+  if (Session.isLoggedIn()) {
+    const u = Session.getUser();
+    location.replace(u && u.role === 'admin' ? '/admin/dashboard.html' : '/customer/dashboard.html');
+  }
+
+  const form = document.getElementById('registerForm');
+  const alertBox = document.getElementById('authAlert');
+  const btn = document.getElementById('registerBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    alertBox.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Creating account…';
+
+    try {
+      const body = {
+        fullName: document.getElementById('fullName').value.trim(),
+        username: document.getElementById('username').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        address: document.getElementById('address').value.trim(),
+      };
+      const result = await api.post('/auth/register', body);
+      Session.setSession(result.token, result.user);
+      location.href = '/customer/dashboard.html';
+    } catch (err) {
+      alertBox.textContent = err.message || 'Registration failed.';
+      alertBox.classList.remove('hidden');
+      btn.disabled = false;
+      btn.textContent = 'Create account';
+    }
+  });
+</script>
+</body>
+</html>

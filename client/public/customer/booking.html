@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Book a Service · WorkshopHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/variables.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-content">
+    <header class="topbar" id="topbar"></header>
+    <main class="page-content">
+
+      <div class="page-head">
+        <div>
+          <h1>Book a Service</h1>
+          <p>Request a service and we'll confirm your slot shortly.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.4fr; gap:20px; align-items:flex-start;">
+        <div class="card card-pad">
+          <h3 style="margin-bottom:16px;">New booking</h3>
+          <form id="bookingForm" class="flex flex-col gap-4">
+            <div class="field">
+              <label>Vehicle</label>
+              <select class="select" id="bf_vehicle" required></select>
+            </div>
+            <div class="field">
+              <label>Service type</label>
+              <select class="select" id="bf_type" required>
+                <option value="">Select a service…</option>
+                <option>General Check-up</option>
+                <option>Oil Change</option>
+                <option>Brake Service</option>
+                <option>Tire Replacement</option>
+                <option>Engine Diagnostics</option>
+                <option>Battery Replacement</option>
+                <option>Air Conditioning Service</option>
+                <option>Transmission Service</option>
+                <option>Other / Custom Repair</option>
+              </select>
+            </div>
+            <div class="form-grid">
+              <div class="field"><label>Date</label><input class="input" type="date" id="bf_date" required /></div>
+              <div class="field"><label>Time</label><input class="input" type="time" id="bf_time" required /></div>
+            </div>
+            <div class="field">
+              <label>Notes <span class="text-faint">(optional)</span></label>
+              <textarea class="textarea" id="bf_notes" placeholder="Describe the issue or anything we should know…"></textarea>
+            </div>
+            <button class="btn btn-accent" type="submit" id="bf_submit">Submit booking request</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>My bookings</h3></div>
+          <div class="table-wrap" style="border:none;">
+            <table class="data-table">
+              <thead><tr><th>Vehicle</th><th>Service</th><th>Requested</th><th>Status</th></tr></thead>
+              <tbody id="bookingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/shared/api.js"></script>
+<script src="/js/shared/auth.js"></script>
+<script src="/js/shared/socket.js"></script>
+<script src="/js/shared/ui.js"></script>
+<script src="/js/shared/toast.js"></script>
+<script src="/js/shared/modal.js"></script>
+<script src="/js/shared/layout.js"></script>
+<script>
+  const user = Session.requireRole('customer');
+  if (user) Layout.render({ role: 'customer', active: 'booking' });
+</script>
+<script src="/js/customer/booking.js"></script>
+</body>
+</html>

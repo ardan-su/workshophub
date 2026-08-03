@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Inventory · WorkshopHub Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/variables.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-content">
+    <header class="topbar" id="topbar"></header>
+    <main class="page-content">
+
+      <div class="page-head">
+        <div>
+          <h1>Inventory</h1>
+          <p>Track incoming and outgoing spare part stock movements.</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-outline" id="stockOutBtn">Stock out</button>
+          <button class="btn btn-accent" id="stockInBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            Stock in
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Stock movement history</h3></div>
+        <div class="table-wrap" style="border:none;">
+          <table class="data-table">
+            <thead>
+              <tr><th>Date</th><th>Part</th><th>Type</th><th>Quantity</th><th>Reference</th><th>By</th></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="paginationBar"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/shared/api.js"></script>
+<script src="/js/shared/auth.js"></script>
+<script src="/js/shared/socket.js"></script>
+<script src="/js/shared/ui.js"></script>
+<script src="/js/shared/toast.js"></script>
+<script src="/js/shared/modal.js"></script>
+<script src="/js/shared/layout.js"></script>
+<script>
+  const user = Session.requireRole('admin');
+  if (user) Layout.render({ role: 'admin', active: 'inventory' });
+</script>
+<script src="/js/admin/inventory.js"></script>
+</body>
+</html>

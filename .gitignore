@@ -1,0 +1,9 @@
+node_modules/
+.env
+npm-debug.log*
+.DS_Store
+server/uploads/avatars/*
+server/uploads/vehicles/*
+!server/uploads/avatars/.gitkeep
+!server/uploads/vehicles/.gitkeep
+*.log

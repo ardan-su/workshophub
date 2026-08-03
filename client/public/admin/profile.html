@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>My Profile · WorkshopHub Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/variables.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <div class="main-content">
+    <header class="topbar" id="topbar"></header>
+    <main class="page-content">
+
+      <div class="page-head">
+        <div>
+          <h1>My Profile</h1>
+          <p>Manage your administrator account.</p>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; align-items:flex-start;">
+        <div class="card card-pad">
+          <h3 style="margin-bottom:16px;">Personal information</h3>
+          <div class="flex items-center gap-4" style="margin-bottom:20px;">
+            <span class="avatar avatar-lg" id="profileAvatar"></span>
+            <div>
+              <label class="btn btn-sm btn-outline" for="avatarInput">Change photo</label>
+              <input type="file" id="avatarInput" accept="image/*" class="hidden" />
+            </div>
+          </div>
+          <form id="profileForm" class="flex flex-col gap-4">
+            <div class="field"><label>Full name</label><input class="input" id="p_name" required /></div>
+            <div class="form-grid">
+              <div class="field"><label>Username</label><input class="input" id="p_username" disabled /></div>
+              <div class="field"><label>Email</label><input class="input" id="p_email" disabled /></div>
+            </div>
+            <div class="field"><label>Phone</label><input class="input" id="p_phone" /></div>
+            <div class="form-actions" style="margin-top:0;">
+              <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card card-pad">
+          <h3 style="margin-bottom:16px;">Change password</h3>
+          <form id="passwordForm" class="flex flex-col gap-4">
+            <div class="field"><label>Current password</label><input class="input" type="password" id="pw_current" required /></div>
+            <div class="field"><label>New password</label><input class="input" type="password" id="pw_new" required minlength="6" /></div>
+            <div class="form-actions" style="margin-top:0;">
+              <button class="btn btn-outline" type="submit">Update password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/shared/api.js"></script>
+<script src="/js/shared/auth.js"></script>
+<script src="/js/shared/socket.js"></script>
+<script src="/js/shared/ui.js"></script>
+<script src="/js/shared/toast.js"></script>
+<script src="/js/shared/modal.js"></script>
+<script src="/js/shared/layout.js"></script>
+<script>
+  const user = Session.requireRole('admin');
+  if (user) Layout.render({ role: 'admin', active: '' });
+</script>
+<script src="/js/admin/profile.js"></script>
+</body>
+</html>
